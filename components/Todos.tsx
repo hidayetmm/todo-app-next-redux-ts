@@ -15,6 +15,17 @@ const Button = styled.button`
 const Li = styled.li`
   display: flex;
   justify-content: space-between;
+  padding-bottom: 5px;
+  :hover {
+    background-color: #727578;
+    color: white;
+    ${Text} {
+      color: #fff;
+    }
+    ${Button} {
+      color: #fff;
+    }
+  }
 `;
 
 const Todos: FC = () => {
@@ -31,7 +42,7 @@ const Todos: FC = () => {
               type="submit"
               role="button"
               name="submit"
-              id="submit"
+              id={task.id}
               className="btn btn-default btn-ghost"
               onClick={(e) => e.preventDefault()}
             >
