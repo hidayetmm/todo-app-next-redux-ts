@@ -1,20 +1,22 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useGetTasksQuery } from "../store/tasks";
 import styled, { ThemeProvider } from "styled-components";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { lightTheme, darkTheme, GlobalStyles } from "../theme";
+import NewTodo from "../components/NewTodo";
+import Todos from "../components/Todos";
 
-const Wrapper = styled.section``;
-
-const Text = styled.h5`
-  // color: blue;
+const Header = styled.header`
+  border: 1px solid yellow;
+  display: flex;
+  height: 60px;
 `;
 
 const Main = styled.main`
+  border: 1px solid black;
   min-height: 100vh;
-  padding: 4rem 0;
+  /* padding: 4rem 0; */
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -22,8 +24,16 @@ const Main = styled.main`
   align-items: center;
 `;
 
+const Container = styled.div`
+  padding: 50px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  min-width: 500px;
+`;
+
 const Home: NextPage = () => {
-  const { data, isLoading, isFetching, error } = useGetTasksQuery("");
   const themeMode = useSelector<RootState>((state) => state.theme.mode);
 
   return (
@@ -35,14 +45,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <Header></Header>
       <Main>
-        {data &&
-          data.map((task) => (
-            <Wrapper key={task.id}>
-              <Text>{task.task_content}</Text>
-            </Wrapper>
-          ))}
-        {isLoading && "Loading"}
+        <Container>
+          <NewTodo />
+          <Todos />
+        </Container>
       </Main>
     </ThemeProvider>
   );
