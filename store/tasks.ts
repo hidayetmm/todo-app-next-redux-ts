@@ -49,9 +49,17 @@ export const tasksApi = createApi({
         }
       ) {},
     }),
+    deleteTask: builder.mutation<Task, string>({
+      query: (id) => ({
+        url: `tasks/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [{ type: "Tasks", id: "LIST" }],
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetTasksQuery, useAddTaskMutation } = tasksApi;
+export const { useGetTasksQuery, useAddTaskMutation, useDeleteTaskMutation } =
+  tasksApi;

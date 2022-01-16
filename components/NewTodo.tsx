@@ -33,7 +33,7 @@ const NewTodo: FC = () => {
   const addTaskHandler = (event: any) => {
     event.preventDefault();
     const target = event.target;
-    const task: Task = {
+    const task: Partial<Task> = {
       task_content: target.task_content.value,
       status: target.status.value,
     };

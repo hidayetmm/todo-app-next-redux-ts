@@ -1,6 +1,9 @@
 import { FC } from "react";
 import styled from "styled-components";
-import { useGetTasksQuery } from "../store/tasks";
+import { useDeleteTaskMutation, useGetTasksQuery } from "../store/tasks";
+import { Task } from "../store/types";
+import { useDispatch } from "react-redux";
+import { notificationActions } from "../store/notification-slice";
 
 const Text = styled.h5`
   margin-bottom: 0px;
@@ -11,11 +14,11 @@ const Button = styled.button`
   padding: 1px 6px;
 `;
 
-const TodosMain = styled.div`
+const TasksMain = styled.div`
   padding-top: 25px;
 `;
 
-const TodoDiv = styled.div`
+const TaskDiv = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -43,13 +46,26 @@ const CheckboxGroup = styled.div`
 
 const Todos: FC = () => {
   const { data, isLoading, isFetching, error } = useGetTasksQuery("");
+  const [deleteTask, { isLoading: isDeleting }] = useDeleteTaskMutation();
+  const dispatch = useDispatch();
+
+  const deleteTaskHandler = (id: Task["id"]) => {
+    deleteTask(id).then((res) => {
+      dispatch(
+        notificationActions.showNotification({
+          text: "Task deleted!",
+          type: "success",
+        })
+      );
+    });
+  };
 
   return (
     <>
-      <TodosMain>
+      <TasksMain>
         {data &&
           data.map((task) => (
-            <TodoDiv key={task.id}>
+            <TaskDiv key={task.id}>
               <CheckboxGroup className="form-group">
                 <input type="checkbox" id="check" />
               </CheckboxGroup>
@@ -62,14 +78,14 @@ const Todos: FC = () => {
                   name="submit"
                   id={task.id}
                   className="btn btn-default btn-ghost"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={() => deleteTaskHandler(task.id)}
                 >
                   X
                 </Button>
               </Div>
-            </TodoDiv>
+            </TaskDiv>
           ))}
-      </TodosMain>
+      </TasksMain>
       {isLoading && "Loading"}
     </>
   );
