@@ -7,17 +7,17 @@ export const tasksApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://61dd876ff60e8f00176688cc.mockapi.io/",
   }),
-  tagTypes: ["Task"],
+  tagTypes: ["Tasks"],
   endpoints: (builder) => ({
     getTasks: builder.query<Task[], string>({
       query: () => `tasks`,
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Task" as const, id })),
-              { type: "Task", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "Tasks" as const, id })),
+              { type: "Tasks", id: "LIST" },
             ]
-          : [{ type: "Task", id: "LIST" }],
+          : [{ type: "Tasks", id: "LIST" }],
     }),
     addTask: builder.mutation<Task, Partial<Task>>({
       // note: an optional `queryFn` may be used in place of `query`
@@ -28,7 +28,7 @@ export const tasksApi = createApi({
       }),
       // Pick out data and prevent nested properties in a hook or selector
       transformResponse: (response: { data: Task }, meta, arg) => response.data,
-      invalidatesTags: [{ type: "Task", id: "LIST" }],
+      invalidatesTags: [{ type: "Tasks", id: "LIST" }],
       // onQueryStarted is useful for optimistic updates
       // The 2nd parameter is the destructured `MutationLifecycleApi`
       async onQueryStarted(

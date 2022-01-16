@@ -1,5 +1,7 @@
 import { FC, FormEvent, FormEventHandler, SyntheticEvent } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { notificationActions } from "../store/notification-slice";
 import { useAddTaskMutation } from "../store/tasks";
 import { Task } from "../store/types";
 
@@ -26,6 +28,8 @@ const Select = styled.select`
 const NewTodo: FC = () => {
   const [addTask, { isLoading }] = useAddTaskMutation();
 
+  const dispatch = useDispatch();
+
   const addTaskHandler = (event: any) => {
     event.preventDefault();
     const target = event.target;
@@ -35,7 +39,14 @@ const NewTodo: FC = () => {
     };
     console.log(task);
 
-    addTask(task).then((res) => {});
+    addTask(task).then((res) => {
+      dispatch(
+        notificationActions.showNotification({
+          text: "Task added!",
+          type: "success",
+        })
+      );
+    });
   };
 
   return (

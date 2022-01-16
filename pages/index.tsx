@@ -6,9 +6,13 @@ import { RootState } from "../store/store";
 import { lightTheme, darkTheme, GlobalStyles } from "../theme";
 import NewTodo from "../components/NewTodo";
 import Todos from "../components/Todos";
+import Notification from "../components/Notification";
 
 const Header = styled.header`
   border: 1px solid yellow;
+  position: absolute;
+  height: 50px;
+  width: 100%;
   display: flex;
   height: 60px;
 `;
@@ -35,6 +39,8 @@ const Container = styled.div`
 
 const Home: NextPage = () => {
   const themeMode = useSelector<RootState>((state) => state.theme.mode);
+  const notification = useSelector((state: RootState) => state.notification);
+  console.log(notification.isActive);
 
   return (
     <ThemeProvider theme={themeMode === "light" ? lightTheme : darkTheme}>
@@ -51,6 +57,7 @@ const Home: NextPage = () => {
           <NewTodo />
           <Todos />
         </Container>
+        {notification.isActive && <Notification notification={notification} />}
       </Main>
     </ThemeProvider>
   );
