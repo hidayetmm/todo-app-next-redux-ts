@@ -10,6 +10,11 @@ export const GlobalStyles = createGlobalStyle`
     background: ${({ theme }: { theme: Theme }) => theme.body};
     color: ${({ theme }) => theme.text};
     transition: background 0.2s ease-in, color 0.2s ease-in;
+    button {
+      :active {
+        transform: translateY(1.5px);
+      }
+    }
   }
 `;
 export const lightTheme: Theme = {

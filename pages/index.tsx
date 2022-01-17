@@ -7,20 +7,9 @@ import { lightTheme, darkTheme, GlobalStyles } from "../theme";
 import NewTodo from "../components/NewTodo";
 import Todos from "../components/Todos";
 import Notification from "../components/Notification";
-
-const Header = styled.header`
-  border: 1px solid yellow;
-  position: absolute;
-  height: 50px;
-  width: 100%;
-  display: flex;
-  height: 60px;
-`;
+import NavBar from "../components/NavBar";
 
 const Main = styled.main`
-  border: 1px solid black;
-  min-height: 100vh;
-  /* padding: 4rem 0; */
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -29,12 +18,17 @@ const Main = styled.main`
 `;
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
+const TodoContainer = styled.div`
   padding: 50px;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
   min-height: 500px;
-  min-width: 500px;
 `;
 
 const Home: NextPage = () => {
@@ -51,14 +45,18 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header></Header>
-      <Main>
-        <Container>
-          <NewTodo />
-          <Todos />
-        </Container>
-        {notification.isActive && <Notification notification={notification} />}
-      </Main>
+      <Container className="container">
+        <NavBar />
+        <Main>
+          <TodoContainer>
+            <NewTodo />
+            <Todos />
+          </TodoContainer>
+          {notification.isActive && (
+            <Notification notification={notification} />
+          )}
+        </Main>
+      </Container>
     </ThemeProvider>
   );
 };

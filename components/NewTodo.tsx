@@ -58,7 +58,7 @@ const NewTodo: FC = () => {
           id="task_content"
           name="task_content"
           type="text"
-          placeholder="Add a task"
+          placeholder="Add a task..."
         />
       </FormItem>
       <FormItem className="form-group">

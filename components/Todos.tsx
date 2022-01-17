@@ -1,9 +1,10 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 import { useDeleteTaskMutation, useGetTasksQuery } from "../store/tasks";
 import { Task } from "../store/types";
 import { useDispatch } from "react-redux";
 import { notificationActions } from "../store/notification-slice";
+import { DeleteIcon } from "../public/icons";
 
 const Text = styled.h5`
   margin-bottom: 0px;
@@ -11,7 +12,13 @@ const Text = styled.h5`
 `;
 
 const Button = styled.button`
-  padding: 1px 6px;
+  width: 25px;
+  height: 25px;
+  padding: 3px;
+  letter-spacing: -3px;
+  :hover {
+    border-color: #151515 !important;
+  }
 `;
 
 const TasksMain = styled.div`
@@ -21,16 +28,21 @@ const TasksMain = styled.div`
 const TaskDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 10px;
   padding: 5px;
   :hover {
     background-color: #727578;
     color: white;
+    svg {
+      stroke: white;
+    }
     ${Text} {
       color: #fff;
     }
     ${Button} {
       color: #fff;
+      border-color: #fff;
     }
   }
 `;
@@ -38,10 +50,18 @@ const TaskDiv = styled.div`
 const Div = styled.div`
   display: flex;
   gap: 20px;
+  align-items: center;
 `;
 
 const CheckboxGroup = styled.div`
+  display: flex;
   margin-bottom: 0px;
+`;
+
+const Icon = styled.svg`
+  width: 32px;
+  height: 32px;
+  stroke: #151515;
 `;
 
 const Todos: FC = () => {
@@ -49,7 +69,10 @@ const Todos: FC = () => {
   const [deleteTask, { isLoading: isDeleting }] = useDeleteTaskMutation();
   const dispatch = useDispatch();
 
+  const [deletingId, setDeletingId] = useState("");
+
   const deleteTaskHandler = (id: Task["id"]) => {
+    setDeletingId(id);
     deleteTask(id).then((res) => {
       dispatch(
         notificationActions.showNotification({
@@ -80,7 +103,13 @@ const Todos: FC = () => {
                   className="btn btn-default btn-ghost"
                   onClick={() => deleteTaskHandler(task.id)}
                 >
-                  X
+                  {(isDeleting || isFetching) && deletingId === task.id ? (
+                    "..."
+                  ) : (
+                    <Icon>
+                      <DeleteIcon />
+                    </Icon>
+                  )}
                 </Button>
               </Div>
             </TaskDiv>
