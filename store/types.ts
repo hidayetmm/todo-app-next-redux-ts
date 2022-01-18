@@ -5,3 +5,5 @@ export type Task = {
   updated_at?: Date;
   status: "progress" | "done";
 };
+
+export type ThemeMode = "light" | "dark";

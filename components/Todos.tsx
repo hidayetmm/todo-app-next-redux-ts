@@ -10,9 +10,12 @@ import { useDispatch } from "react-redux";
 import { notificationActions } from "../store/notification-slice";
 import { DeleteIcon } from "../public/icons";
 
-const Text = styled.h5`
+const Text = styled.h5<{ isDone?: boolean }>`
   margin-bottom: 0px;
   flex: 1;
+  text-decoration: ${({ isDone }) => (isDone ? "line-through" : "none")};
+  color: ${({ isDone }) =>
+    isDone ? "var(--secondary-color)" : "var(--font-color)"} !important;
 `;
 
 const Button = styled.button`
@@ -125,14 +128,7 @@ const Todos: FC = () => {
                   }
                 />
               </CheckboxGroup>
-              <Text
-                style={{
-                  textDecoration:
-                    task.status === "done" ? "line-through" : "none",
-                }}
-              >
-                {task.task_content}
-              </Text>
+              <Text isDone={task.status === "done"}>{task.task_content}</Text>
               <Div>
                 <Text>{task.status}</Text>
                 <Button
