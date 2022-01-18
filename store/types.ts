@@ -3,5 +3,5 @@ export type Task = {
   task_content: string;
   createdAt?: Date;
   updated_at?: Date;
-  status: string;
+  status: "progress" | "done";
 };

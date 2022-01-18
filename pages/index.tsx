@@ -34,7 +34,6 @@ const TodoContainer = styled.div`
 const Home: NextPage = () => {
   const themeMode = useSelector<RootState>((state) => state.theme.mode);
   const notification = useSelector((state: RootState) => state.notification);
-  console.log(notification.isActive);
 
   return (
     <ThemeProvider theme={themeMode === "light" ? lightTheme : darkTheme}>

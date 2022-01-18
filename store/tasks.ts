@@ -49,6 +49,14 @@ export const tasksApi = createApi({
         }
       ) {},
     }),
+    updateTaskStatus: builder.mutation<Task, Partial<Task>>({
+      query: ({ id, status }) => ({
+        url: `tasks/${id}`,
+        method: "PUT",
+        body: { status },
+      }),
+      invalidatesTags: [{ type: "Tasks", id: "LIST" }],
+    }),
     deleteTask: builder.mutation<Task, string>({
       query: (id) => ({
         url: `tasks/${id}`,
@@ -61,5 +69,9 @@ export const tasksApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetTasksQuery, useAddTaskMutation, useDeleteTaskMutation } =
-  tasksApi;
+export const {
+  useGetTasksQuery,
+  useAddTaskMutation,
+  useUpdateTaskStatusMutation,
+  useDeleteTaskMutation,
+} = tasksApi;

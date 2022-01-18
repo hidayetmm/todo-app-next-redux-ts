@@ -37,7 +37,6 @@ const NewTodo: FC = () => {
       task_content: target.task_content.value,
       status: target.status.value,
     };
-    console.log(task);
 
     addTask(task).then((res) => {
       dispatch(

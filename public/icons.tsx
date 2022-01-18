@@ -12,7 +12,7 @@ export const DeleteIcon = () => (
       xlinkHref="#i-close"
       stroke="current"
       fill="none"
-      stroke-width="4px"
+      strokeWidth="3px"
     ></use>
   </>
 );
