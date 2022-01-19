@@ -29,7 +29,7 @@ const NavBar = () => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>();
   useEffect(() => {
     setIsDarkMode(themeMode === "dark");
-  }, []);
+  }, [themeMode]);
 
   const themeChangeHandler = (mode: ThemeMode) => {
     dispatch(uiActions.toggle(mode));
