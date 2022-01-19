@@ -70,6 +70,7 @@ const NavBar = () => {
       </Header>
       <a
         target="_blank"
+        rel="noreferrer"
         href="https://github.com/hidayetmm/todo-app-next-redux-typescript"
       >
         <GithubCorner />

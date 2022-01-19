@@ -24,7 +24,7 @@ const Notification: FC<{ notification: Istate }> = ({ notification }) => {
     setTimeout(() => {
       dispatch(notificationActions.removeNotification());
     }, notification.duration);
-  }, []);
+  }, [dispatch, notification.duration]);
 
   return (
     <Container className={TERMINAL_ALERTS[notification.type]}>
