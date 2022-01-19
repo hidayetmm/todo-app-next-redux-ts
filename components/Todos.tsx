@@ -68,7 +68,7 @@ const CheckboxGroup = styled.div`
 const Icon = styled.svg`
   width: 32px;
   height: 32px;
-  stroke: #151515;
+  stroke: var(--font-color);
 `;
 
 const Todos: FC = () => {

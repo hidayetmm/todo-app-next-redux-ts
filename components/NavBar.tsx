@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { GithubCorner } from "../public/icons";
@@ -26,11 +26,15 @@ const Menu = styled.nav``;
 const NavBar = () => {
   const dispatch = useDispatch();
   const themeMode = useSelector((state: RootState) => state.theme.mode);
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(themeMode === "dark");
+  const [isDarkMode, setIsDarkMode] = useState<boolean>();
+  useEffect(() => {
+    setIsDarkMode(themeMode === "dark");
+  }, []);
 
   const themeChangeHandler = (mode: ThemeMode) => {
     dispatch(uiActions.toggle(mode));
     setIsDarkMode(mode === "dark" ? true : false);
+    localStorage.setItem("theme", mode);
   };
 
   return (
