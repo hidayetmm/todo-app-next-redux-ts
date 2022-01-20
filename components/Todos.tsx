@@ -45,7 +45,7 @@ const TaskDiv = styled.div`
       stroke: white;
     }
     ${Text} {
-      color: #fff;
+      color: #fff !important;
     }
     ${Button} {
       color: #fff;

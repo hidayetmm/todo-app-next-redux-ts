@@ -8,6 +8,7 @@ import NewTodo from "../components/NewTodo";
 import Todos from "../components/Todos";
 import Notification from "../components/Notification";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 const Main = styled.main`
   flex: 1;
@@ -55,6 +56,7 @@ const Home: NextPage = () => {
             <Notification notification={notification} />
           )}
         </Main>
+        <Footer />
       </Container>
     </ThemeProvider>
   );
