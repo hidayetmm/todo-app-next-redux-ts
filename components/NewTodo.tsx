@@ -16,13 +16,13 @@ const FormItem = styled.div`
 
 const Input = styled.input``;
 
-const Button = styled.button`
-  :focus {
-    /* background-color: #151515 !important; */
-  }
-`;
+const Button = styled.button``;
+
 const Select = styled.select`
   height: 100%;
+  background-color: var(--background-color);
+  border: 1px var(--input-style) var(--font-color);
+  color: var(--font-color);
 `;
 
 const NewTodo: FC = () => {

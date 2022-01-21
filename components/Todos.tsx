@@ -74,6 +74,12 @@ const Td = styled.td<{ isDone?: boolean }>`
   color: ${({ isDone }) => (isDone ? "var(--secondary-color)" : "none")};
 `;
 
+const ActionTd = styled.td`
+  text-align: center;
+  width: 1%;
+  white-space: nowrap;
+`;
+
 const Todos: FC = () => {
   const { data, isLoading, isFetching, error } = useGetTasksQuery("");
   const [deleteTask, { isLoading: isDeleting }] = useDeleteTaskMutation();
@@ -158,7 +164,7 @@ const Todos: FC = () => {
                     )}
                   </Td>
                   <td>{task.status}</td>
-                  <td>
+                  <ActionTd>
                     <Button
                       id={task.id + "/edit"}
                       className="btn btn-default btn-ghost"
@@ -178,7 +184,7 @@ const Todos: FC = () => {
                         <DeleteIcon />
                       )}
                     </Button>
-                  </td>
+                  </ActionTd>
                 </tr>
               ))}
           </tbody>
