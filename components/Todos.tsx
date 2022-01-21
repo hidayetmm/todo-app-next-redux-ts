@@ -124,7 +124,7 @@ const Todos: FC = () => {
           <tbody>
             {data &&
               data.map((task) => (
-                <tr>
+                <tr key={task.id}>
                   <th>
                     <input
                       disabled={
