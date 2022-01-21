@@ -8,7 +8,7 @@ import {
 import { Task } from "../store/types";
 import { useDispatch } from "react-redux";
 import { notificationActions } from "../store/notification-slice";
-import { DeleteIcon } from "../public/icons";
+import { SaveIcon, EditIcon, DeleteIcon } from "../public/icons";
 
 const Text = styled.h5<{ isDone?: boolean }>`
   margin-bottom: 0px;
@@ -19,10 +19,9 @@ const Text = styled.h5<{ isDone?: boolean }>`
 `;
 
 const Button = styled.button`
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   padding: 3px;
-  letter-spacing: -3px;
   :hover {
     border-color: #151515 !important;
   }
@@ -65,10 +64,14 @@ const CheckboxGroup = styled.div`
   margin-bottom: 0px;
 `;
 
-const Icon = styled.svg`
+const Icon = styled.img`
   width: 32px;
   height: 32px;
-  stroke: var(--font-color);
+`;
+
+const Td = styled.td<{ isDone?: boolean }>`
+  text-decoration: ${({ isDone }) => (isDone ? "line-through" : "none")};
+  color: ${({ isDone }) => (isDone ? "var(--secondary-color)" : "none")};
 `;
 
 const Todos: FC = () => {
@@ -80,6 +83,7 @@ const Todos: FC = () => {
 
   const [updatingTaskId, setupdatingTaskId] = useState("");
   const [deletingTaskId, setDeletingTaskId] = useState("");
+  const [editingId, setEditingId] = useState("");
 
   const updateTaskHandler = (id: Task["id"], status: Task["status"]) => {
     setupdatingTaskId(id);
@@ -108,48 +112,77 @@ const Todos: FC = () => {
   return (
     <>
       <TasksMain>
-        {data &&
-          data.map((task) => (
-            <TaskDiv key={task.id}>
-              <CheckboxGroup className="form-group">
-                <input
-                  disabled={
-                    (isUpdating || isFetching) && updatingTaskId === task.id
-                  }
-                  defaultChecked={task.status === "done" ? true : false}
-                  value="checkedd"
-                  type="checkbox"
-                  id="check"
-                  onChange={(e) =>
-                    updateTaskHandler(
-                      task.id,
-                      e.target.checked ? "done" : "progress"
-                    )
-                  }
-                />
-              </CheckboxGroup>
-              <Text isDone={task.status === "done"}>{task.task_content}</Text>
-              <Div>
-                <Text>{task.status}</Text>
-                <Button
-                  type="submit"
-                  role="button"
-                  name="submit"
-                  id={task.id}
-                  className="btn btn-default btn-ghost"
-                  onClick={() => deleteTaskHandler(task.id)}
-                >
-                  {(isDeleting || isFetching) && deletingTaskId === task.id ? (
-                    "..."
-                  ) : (
-                    <Icon>
-                      <DeleteIcon />
-                    </Icon>
-                  )}
-                </Button>
-              </Div>
-            </TaskDiv>
-          ))}
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>task name</th>
+              <th>status</th>
+              <th>action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data &&
+              data.map((task) => (
+                <tr>
+                  <th>
+                    <input
+                      disabled={
+                        (isUpdating || isFetching) && updatingTaskId === task.id
+                      }
+                      defaultChecked={task.status === "done" ? true : false}
+                      value="checkedd"
+                      type="checkbox"
+                      id="check"
+                      onChange={(e) =>
+                        updateTaskHandler(
+                          task.id,
+                          e.target.checked ? "done" : "progress"
+                        )
+                      }
+                    />
+                  </th>
+                  <Td isDone={task.status === "done"} id="task_content">
+                    {editingId === task.id ? (
+                      <input
+                        required
+                        minLength={5}
+                        id="task_content"
+                        name="task_content"
+                        type="text"
+                        defaultValue={task.task_content}
+                        placeholder={task.task_content}
+                      />
+                    ) : (
+                      task.task_content
+                    )}
+                  </Td>
+                  <td>{task.status}</td>
+                  <td>
+                    <Button
+                      id={task.id + "/edit"}
+                      className="btn btn-default btn-ghost"
+                      onClick={() => setEditingId(task.id)}
+                    >
+                      {editingId === task.id ? <SaveIcon /> : <EditIcon />}
+                    </Button>
+                    <Button
+                      id={task.id + "/delete"}
+                      className="btn btn-default btn-ghost"
+                      onClick={() => deleteTaskHandler(task.id)}
+                    >
+                      {(isDeleting || isFetching) &&
+                      deletingTaskId === task.id ? (
+                        "..."
+                      ) : (
+                        <DeleteIcon />
+                      )}
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </TasksMain>
       {isLoading && "Loading"}
     </>

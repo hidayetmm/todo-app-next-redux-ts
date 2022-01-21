@@ -25,10 +25,16 @@ const Footer = () => {
   return (
     <FooterMain>
       <IconsContainer>
-        <Link href="https://reactjs.org/" target="_blank" rel="noreferrer">
+        <Link
+          title="React"
+          href="https://reactjs.org/"
+          target="_blank"
+          rel="noreferrer"
+        >
           <ReactIcon />
         </Link>
         <Link
+          title="Typescript"
           href="https://www.typescriptlang.org/"
           target="_blank"
           rel="noreferrer"
@@ -36,13 +42,19 @@ const Footer = () => {
           <Typescript />
         </Link>
         <Link
+          title="Redux"
           href="https://redux-toolkit.js.org/"
           target="_blank"
           rel="noreferrer"
         >
           <Redux />
         </Link>
-        <Link href="https://nextjs.org/" target="_blank" rel="noreferrer">
+        <Link
+          title="Next.js"
+          href="https://nextjs.org/"
+          target="_blank"
+          rel="noreferrer"
+        >
           <NextjsIcon />
         </Link>
       </IconsContainer>
