@@ -9,7 +9,7 @@ const Container = styled.div`
   height: 50px;
   right: 50px;
   bottom: 50px;
-  border: 1px solid black;
+  border: 1px solid var(--font-color);
 `;
 
 const Notification: FC<{ notification: Istate }> = ({ notification }) => {
