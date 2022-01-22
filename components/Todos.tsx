@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import styled from "styled-components";
 import {
   useDeleteTaskMutation,
+  useEditTaskContentMutation,
   useGetTasksQuery,
   useUpdateTaskStatusMutation,
 } from "../store/tasks";
@@ -83,6 +84,8 @@ const ActionTd = styled.td`
 const Todos: FC = () => {
   const { data, isLoading, isFetching, error } = useGetTasksQuery("");
   const [deleteTask, { isLoading: isDeleting }] = useDeleteTaskMutation();
+  const [editTaskContent, { isLoading: isEditing }] =
+    useEditTaskContentMutation();
   const [updateTaskStatus, { isLoading: isUpdating }] =
     useUpdateTaskStatusMutation();
   const dispatch = useDispatch();
@@ -90,6 +93,7 @@ const Todos: FC = () => {
   const [updatingTaskId, setupdatingTaskId] = useState("");
   const [deletingTaskId, setDeletingTaskId] = useState("");
   const [editingId, setEditingId] = useState("");
+  const [editedTaskContent, setEditedTaskContent] = useState("");
 
   const updateTaskHandler = (id: Task["id"], status: Task["status"]) => {
     setupdatingTaskId(id);
@@ -113,6 +117,30 @@ const Todos: FC = () => {
         })
       );
     });
+  };
+
+  const editTaskContentHandler = (
+    id: Task["id"],
+    task_content: Task["task_content"]
+  ) => {
+    if (editingId === id) {
+      editedTaskContent === task_content
+        ? setEditingId("")
+        : editTaskContent({ id, task_content: editedTaskContent }).then(
+            (res) => {
+              setEditingId("");
+              dispatch(
+                notificationActions.showNotification({
+                  text: "Task updated!",
+                  type: "success",
+                })
+              );
+            }
+          );
+    } else {
+      setEditingId(id);
+      setEditedTaskContent(task_content);
+    }
   };
 
   return (
@@ -158,6 +186,7 @@ const Todos: FC = () => {
                         type="text"
                         defaultValue={task.task_content}
                         placeholder={task.task_content}
+                        onChange={(e) => setEditedTaskContent(e.target.value)}
                       />
                     ) : (
                       task.task_content
@@ -168,7 +197,9 @@ const Todos: FC = () => {
                     <Button
                       id={task.id + "/edit"}
                       className="btn btn-default btn-ghost"
-                      onClick={() => setEditingId(task.id)}
+                      onClick={() =>
+                        editTaskContentHandler(task.id, task.task_content)
+                      }
                     >
                       {editingId === task.id ? <SaveIcon /> : <EditIcon />}
                     </Button>
