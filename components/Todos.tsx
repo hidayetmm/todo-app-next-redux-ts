@@ -70,6 +70,12 @@ const Icon = styled.img`
   height: 32px;
 `;
 
+const Tbody = styled.tbody`
+  tr:hover {
+    background-color: rgba(229, 229, 229, 0.3);
+  }
+`;
+
 const Td = styled.td<{ isDone?: boolean }>`
   text-decoration: ${({ isDone }) => (isDone ? "line-through" : "none")};
   color: ${({ isDone }) => (isDone ? "var(--secondary-color)" : "none")};
@@ -155,7 +161,7 @@ const Todos: FC = () => {
               <th>action</th>
             </tr>
           </thead>
-          <tbody>
+          <Tbody>
             {data &&
               data.map((task) => (
                 <tr key={task.id}>
@@ -200,6 +206,7 @@ const Todos: FC = () => {
                       onClick={() =>
                         editTaskContentHandler(task.id, task.task_content)
                       }
+                      disabled={isFetching || isEditing}
                     >
                       {editingId === task.id ? <SaveIcon /> : <EditIcon />}
                     </Button>
@@ -218,7 +225,7 @@ const Todos: FC = () => {
                   </ActionTd>
                 </tr>
               ))}
-          </tbody>
+          </Tbody>
         </table>
       </TasksMain>
       {isLoading && "Loading"}
