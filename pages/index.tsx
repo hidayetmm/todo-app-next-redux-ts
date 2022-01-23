@@ -44,19 +44,21 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (!localStorage.getItem("theme")) {
-      dispatch(
-        notificationActions.showNotification({
-          text: 'Press "D" for Dark mode!',
-          type: "success",
-        })
-      );
+      setTimeout(() => {
+        dispatch(
+          notificationActions.showNotification({
+            text: 'Press "D" for Dark mode!',
+            type: "success",
+          })
+        );
+      }, 1500);
       localStorage.setItem("theme", "light");
     }
   }, []);
 
-  const handler = ({ key }: any) => {
+  const handler = ({ key, target }: any) => {
     const mode = themeMode === "dark" ? "light" : "dark";
-    if (key.toLowerCase() === "d") {
+    if (key.toLowerCase() === "d" && target.tagName !== "INPUT") {
       dispatch(uiActions.toggle(themeMode === "dark" ? "light" : "dark"));
       localStorage.setItem("theme", mode);
     }
