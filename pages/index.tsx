@@ -9,6 +9,11 @@ import Todos from "../components/Todos";
 import Notification from "../components/Notification";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import useEventListener from "../hooks/useEventListener";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../store/theme-slice";
+import { useEffect } from "react";
+import { notificationActions } from "../store/notification-slice";
 
 const Main = styled.main`
   flex: 1;
@@ -35,6 +40,29 @@ const TodoContainer = styled.div`
 const Home: NextPage = () => {
   const themeMode = useSelector<RootState>((state) => state.theme.mode);
   const notification = useSelector((state: RootState) => state.notification);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!localStorage.getItem("theme")) {
+      dispatch(
+        notificationActions.showNotification({
+          text: 'Press "D" for Dark mode!',
+          type: "success",
+        })
+      );
+      localStorage.setItem("theme", "light");
+    }
+  }, []);
+
+  const handler = ({ key }: any) => {
+    const mode = themeMode === "dark" ? "light" : "dark";
+    if (key.toLowerCase() === "d") {
+      dispatch(uiActions.toggle(themeMode === "dark" ? "light" : "dark"));
+      localStorage.setItem("theme", mode);
+    }
+  };
+
+  useEventListener("keydown", handler);
 
   return (
     <ThemeProvider theme={themeMode === "light" ? lightTheme : darkTheme}>
