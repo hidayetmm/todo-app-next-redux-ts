@@ -1,6 +1,6 @@
 # Terminal style Todo application built with React, Redux Toolkit, Typescript and Next.js.
 
-## Stack
+## **Stack**
 
 - Create React App
 - React Redux
@@ -9,13 +9,20 @@
 - Next.js
 - Styled Components
 
+## **Features**
+
+- User is able to to CRUD operations with tasks.
+- User can change the theme mode (dark/light), also with the shortcut "D".
+- Further implementations like authorization and authentication will be added.
+
 ## **Demo**
 
 Try demo at [this link.](https://terminal-style-todo-app.vercel.app)
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 First, run the development server:
 
