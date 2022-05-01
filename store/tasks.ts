@@ -20,13 +20,11 @@ export const tasksApi = createApi({
           : [{ type: "Tasks", id: "LIST" }],
     }),
     addTask: builder.mutation<Task, Partial<Task>>({
-      // note: an optional `queryFn` may be used in place of `query`
       query: (body) => ({
         url: `tasks`,
         method: "POST",
         body: body,
       }),
-      // Pick out data and prevent nested properties in a hook or selector
       transformResponse: (response: { data: Task }, meta, arg) => response.data,
       invalidatesTags: [{ type: "Tasks", id: "LIST" }],
       // onQueryStarted is useful for optimistic updates
@@ -35,7 +33,6 @@ export const tasksApi = createApi({
         arg,
         { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
       ) {},
-      // The 2nd parameter is the destructured `MutationCacheLifecycleApi`
       async onCacheEntryAdded(
         arg,
         {
@@ -75,8 +72,6 @@ export const tasksApi = createApi({
   }),
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
 export const {
   useGetTasksQuery,
   useAddTaskMutation,
